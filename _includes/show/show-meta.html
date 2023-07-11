@@ -1,4 +1,4 @@
 <div class="show-meta">
-  <p class="text-center">{{ include.show.performance_space }} <br><small class="mt-2">{{ include.show.venue }}</small></p>
+  <p class="text-center">{{ include.show.performance_space.name | default: show.venue.name }} {% if include.show.performance_space.name %}<br><small class="mt-2">{{ include.show.venue.name }}</small>{% endif %}</p>
   <p>{% for g in include.show.genre %}{% include components/genre-badge.html genre=g %}{% endfor %}</p>
 </div>

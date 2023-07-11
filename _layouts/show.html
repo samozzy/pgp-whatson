@@ -3,48 +3,93 @@ layout: default
 ---
 {% assign show = page %}
 {% include show/show-date-range.html show=show %}
+{% include show/show-start-time.html show=show %}
 
-<div class="row">
+<div class="row show-page">
 	<div class="col-12">
 		<div class="poster-wrap">
-			<div class="show-poster">
+			<div class="show-poster mb-4">
 				{% include show/show-get-poster.html show=show %}
 				{% include show/show-meta.html show=show %}
 			</div>
 			<div class="wrap-content px-4">
-				<p class="lead"><strong>Performances:</strong> {{ date_list }}</p>
-				<p>{{ show.copy_long }}</p>
+				{% if date_list or show_start_time %}
+					<p class="lead">
+						<strong>Performances:</strong> 
+						{% if show_start_time contains 'Various' or different_durations %}
+							<ul>
+								{% for p in performances_sorted %}
+									{% assign p_year = p | date: "%Y" %}
+									<li>{{ p | date_to_long_string: "ordinal" | remove: p_year}} - {{ p | date: "%H:%M" }} 
+										{% if different_durations %}
+											{% assign show_duration = p_durations_sorted[forloop.index0] | split: ';;' | last %}
+											({% include manipulation/mins-duration.html minutes=show_duration output=true %})
+										{% endif %}
+									</li>
+								{% endfor %}
+							</ul>
+							{% unless different_durations %}
+								<em>All performances are {{ show_duration }}</em>
+							{% endunless %}
+						{% else %}
+							{{ date_list }} {% if date_list and show_start_time %}<br>{% endif %}
+							<strong>Start time: </strong>{{ show_start_time }} {% if show_duration %}({{ show_duration | strip }}){% endif %}</p>{% endif %}
+						{% endif %}
+				<p>{{ show.description }}</p>
 				<div class="show-buttons mb-4">
 					{% include show/show-book-button.html show=show classes='w-100' %}
 				</div>
-				{% if show.content_warnings and show.content_warnings != empty %}
+				{% if show.warnings and show.warnings != empty and show.warnings != "None" %}
 					{% assign has_cw = true %}
-				{% elsif show.content_warning_detail and show.content_warning_detail != empty %}
+				{% elsif show.warning_detail and show.warning_detail != empty %}
 					{% assign has_cw = true %}
-				{% elsif show.age_guidance and show.age_guidance != empty %}
+				{% elsif show.age_category and show.age_category != empty %}
 					{% assign has_cw = true %}
 				{% elsif show.age_restricted %}
 					{% assign has_cw = true %}
 				{% endif %}
 				{% if has_cw %}
 					<h2>Content Warnings</h2>
-					{% if show.age_guidance and show.age_guidance != empty %}
-						<p class="lead text-primary">Age {% if show.age_restricted %}restriction{% else %}guidance{% endif %}: {{ show.age_guidance }}</p>
+					{% if show.age_category and show.age_category != empty %}
+						<p class="lead text-primary">Age {% if show.age_restricted %}restriction{% else %}guidance{% endif %}: {{ show.age_category }}</p>
 					{% endif %}
-					{% if show.content_warnings and show.content_warnings != empty %}
+					{% if show.warnings and show.warnings != empty and show.warnings != "None" %}
 						<ul>
-							{% for cw in show.content_warnings %}
+							{% for cw in show.warnings %}
 								<li>{{ cw }}</li>
 							{% endfor %}
 						</ul>
 					{% endif %}
-					{% if show.content_warning_detail and show.content_warning_detail != empty %}
-						{{ show.content_warning_detail | markdownify }}
+					{% if show.warning_detail and show.warning_detail != empty %}
+						{{ show.warning_detail | markdownify }}
 					{% endif %}
 				{% endif %}
-				{% if show.access and show.access != empty %}
-					<h2>Accessibility</h2>
-					{{ show.access | markdownify }}
+				{% if show.disabled and show.disabled != empty %}
+					{% for i in show.disabled %}
+						{% comment %}Check if there are any accessibility concerns before determining whether to display the section {% endcomment %}
+						{% if i[1] != null and i[1] != false %}
+							{% assign has_access = true %}
+							{% break %}
+						{% endif %}
+					{% endfor %}
+					{% if has_access %}
+						<h2>Accessibility</h2>
+						<ul>
+							{% for i in show.disabled %}
+								{% comment %}Iterate over the accessibility options, and index for their dates if available {% endcomment %}
+								{% if i[1] != nil and i[1] != false %}
+									{% if i[0] contains "_dates" or i[0] contains "_information" %}
+										{% continue %}
+									{% else %}
+										{% capture i_dates %}{{ i[0] }}_dates{% endcapture %}
+										{% capture i_info %}{{ i[0] }}_information{% endcapture %}
+										<li>{{ i[0] | capitalize }} {{ show.disabled[i_dates] }} {% if show.disabled[i_dates] and show.disabled[i_info] %}<br>{% endif %} {{ show.disabled[i_info] }}</li>
+									{% endif %}
+								{% endif %}
+							{% endfor %}
+						</ul>
+					{% endif %}
+					{% assign has_access = false %}
 				{% endif %}
 
 			</div>

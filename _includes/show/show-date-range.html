@@ -1,10 +1,62 @@
+{% assign midnight = "2023-08-01 00:00" | date: "%H:%M" | date: "%s" %}
+{% assign fringe_time = site.fringe_time | date: "%H:%M" | date: "%s" %}
 {% assign show = include.show %}
-{% if show.performances and show.performances != empty %}
-	{% assign performances_sorted = show.performances | sort %}
+
+{% assign p_dates = '' | split: '' %} {% comment %} Initialise array for fringe-time-ification{% endcomment %}
+{% assign p_durations = '' | split: '' %}{% comment %}Initialise array for durations {% endcomment %}
+{% assign different_durations = nil %}
+
+{% comment %}
+
+FRINGE TIME 
+
+	1. Take the performance date time 
+	2. If the time element is between 00:00 and site.fringe_time, decrement the date 
+	3. Otherwise, leave it be 
+	(site.fringe_time is the time the new day starts in fringeland)
+
+{% endcomment %}
+
+{% assign num_shows = include.show.performances | size %}
+{% for perf in include.show.performances %}
+	{% if picked_performance and forloop.index > 1 and forloop.index <= num_shows %} 
+		{% comment %}If this is not the first loop, check that the end times are the same {% endcomment %}
+		{% assign prev_index = forloop.index0 | minus: 1 %}
+		{% assign prev_perf = include.show.performances[prev_index] %}
+		{% assign prev_duration = prev_perf.duration_minutes %}
+		{% assign this_duration = perf.duration_minutes %}
+		{% if prev_duration != this_duration %}
+			{% assign different_durations = true %}
+		{% endif %}
+	{% endif %}
+
+	{% assign picked_performance = perf.start %}
+	{% assign picked_date = picked_performance | date: "%Y-%m-%d" %}
+	{% assign picked_time = picked_performance | date: "%H:%M" | date: "%s" %}
+
+	{% if picked_time >= midnight and picked_time < fringe_time %}
+		{% assign new_perf = picked_performance | date: "%s" | minus: 86400 | date: "%Y-%m-%d %H:%M" %}
+	{% else %}
+		{% assign new_perf = picked_performance | date: "%Y-%m-%d %H:%M" %}
+	{% endif %}
+	{% assign p_dates = p_dates | push: new_perf %}
+	{% capture p_date_duration %}{{ new_perf }};;{{ perf.duration_minutes }}{% endcapture %}
+	{% assign p_durations = p_durations | push: p_date_duration %}
+{% endfor %}
+
+{% comment %} DATE HANDLING {% endcomment %}
+
+{% if p_dates and show.performances != empty %}
+	{% assign performances_sorted = p_dates | sort %}
+	{% assign p_durations_sorted = p_durations | sort %}
+
 	{% assign first_performance = performances_sorted | first %}
 	{% assign last_performance = performances_sorted | reverse | first %}
-	{% if first_performance == last_performance %}
-		{% comment %}Assume show is a one-day{% endcomment %}
+	{% assign first_performance_date = first_performance | date: "%Y-%m-%d" %}
+	{% assign last_performance_date = last_performance | date: "%Y-%m-%d" %}
+
+	{% if first_performance_date == last_performance_date %}
+		{% comment %}Assume show is a one-day, even if there are multiple performances on that one day{% endcomment %}
 		{% assign date_string = first_performance | date_to_long_string: "ordinal" %}
 		{% assign date_list = date_string %}
 	{% else %}
@@ -12,6 +64,7 @@
 		{% assign last_month_year = last_performance | date: "%B %Y" %}
 		{% assign date_list = '' | split: ''  %}
 		{% if first_month_year == last_month_year %}
+			{% comment %} All performances are within 1 calendar month (hooray!){% endcomment %}
 			{% capture date_string %}{{- first_performance | date_to_long_string: "ordinal" | remove: first_month_year | strip -}}-{{ last_performance | date_to_long_string: "ordinal" | remove: last_month_year | strip }} {{ first_performance | date: "%b" }}{% endcapture %}
 			{% for perf in performances_sorted %}
 				{% capture this_date %}{{ perf | date_to_long_string: "ordinal" | remove: first_month_year }}{% endcapture %}

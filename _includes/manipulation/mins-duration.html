@@ -1,0 +1,25 @@
+{%- if include.minutes -%}
+	{%- comment -%} Verify that the number of minutes is in fact a number, and leave eg 1hr30 untreated {%- endcomment -%}
+
+	{%- capture include_minutes -%}{{ include.minutes }}{%- endcapture -%}
+	{%- capture minutes_int -%}{{ include.minutes | plus: 0 }}{%- endcapture -%}
+
+	{%- if include_minutes == minutes_int -%}
+		{%- assign minutes_int = include.minutes | plus: 0 -%}
+		{%- if minutes_int >= 60 -%}
+			{%- assign hrs = minutes_int | divided_by: 60 | split: '.' | first | times: 1 -%}
+			{%- assign hrs_mins = hrs | times: 60 -%}
+			{%- assign mins = minutes_int | minus: hrs_mins -%}
+			{%- if mins == 0 -%}{%- assign mins = nil -%}{%- endif -%}
+			{%- capture duration -%}{{ hrs | strip }}hr{%- if hrs > 1 -%}s{%- endif -%} {{ mins }}{%- endcapture -%}
+		{%- else -%}
+			{%- capture duration -%}{{ minutes_int | strip }}mins{%- endcapture -%}
+		{%- endif -%}
+	{%- else -%}
+		{%- assign duration = include.minutes -%}
+	{%- endif -%}
+
+	{%- if include.output -%}
+		{{- duration | strip -}}
+	{%- endif -%}
+{%- endif -%}

@@ -18,20 +18,35 @@
 		padding-left: 0;
 	}
 
-	.venue-list {
+	.venue-list, .age-list {
 		ul {
 			list-style: none;
 		}
 	}
 }
-button.update-results {
+button.update-results, button.clear-results {
 	@extend .pg-button; 
 	@extend .w-100, .fs-5;
 	border-top: none !important;
 }
 
-.filtered-out-by-venue, .filtered-out-by-genre {
+.filtered-out-by-venue, .filtered-out-by-genre, .filtered-out-by-search, .filtered-out-by-time, .filtered-out-by-age {
 	@extend .d-none;
+}
+
+.search-input {
+	border-radius: 0 !important;
+	background-color: $color-white !important;
+	@extend .ms-lg-2;
+	@include media-breakpoint-up(lg){
+		width: 75% !important;
+	}
+}
+label.genre-badge {
+	opacity: 50%;
+	&:hover, &:focus, &:active, &.active {
+		opacity: 100%;
+	}
 }
 .genre-badge {
 	-webkit-mask-image: url('/static/band/white-thick.png');
@@ -39,4 +54,28 @@ button.update-results {
 	-webkit-mask-position: center;
 	-webkit-mask-size: 100%;
 	-webkit-mask-repeat: no-repeat;
+
+	font-size: $small-font-size;
+	min-height: 2rem; 
+	@extend .d-flex;
+	span { 
+		mix-blend-mode: color-burn;
+	    font-weight: bold;
+	    @extend .text-center, .w-100, .d-inline-block, .my-auto;
+	}
+}
+
+.spinner {
+  border: 16px solid map-get($color-paradise,"paradise-blue");
+  border-radius: 50%;
+  border-top: 16px solid map-get($color-paradise,"paradise-white");
+  width: 60px;
+  height: 60px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

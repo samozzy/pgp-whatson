@@ -1,0 +1,37 @@
+{% assign show = include.show %}
+{% assign show_start_time = nil %}
+{% assign show_duration = nil %}
+{% assign p_start_time = nil %}
+
+{% if show.performances and show.performances != empty %}
+	{% for p in show.performances %}
+		{% assign p_start_time = p.start | date: "%H:%M" %}
+		{% if show_start_time == nil %}
+			{% assign show_start_time = p_start_time %}
+			{% comment %}
+			{% if p.is_at_fixed_time == true %}
+				{% break %}
+			{% endif %}
+			{% endcomment %}
+		{% elsif show_start_time != p_start_time %}
+			{% assign show_start_time = "Various times" %}
+		{% endif %}
+
+		{% if show_duration and show_duration != p.duration_minutes %}
+			{% assign show_duration = 'Various durations' %}
+		{% else %}
+			{% assign show_duration = p.duration_minutes %}
+		{% endif %}
+	{% endfor %}
+{% endif %}
+
+{% if show_duration and show_duration != nil and show_duration != 'Various' %}
+	{% include manipulation/mins-duration.html minutes=show_duration %}
+	{% assign show_duration = duration %}
+{% endif %}
+
+{% comment %}
+1. Assign the start time to be the first start time we come across
+2. Check is_at_fixed_time == true 
+3. If not, return 'Various times'
+{% endcomment %}

@@ -1,2 +1,2 @@
 {% assign show = include.show %}
-<a href="#" class="btn btn-book {{ include.classes }} ">Book Tickets</a>
+<a href="{{ show.website | remove: '\' }}" class="btn btn-book {{ include.classes }} ">Book Tickets</a>

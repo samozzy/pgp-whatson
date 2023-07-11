@@ -32,7 +32,7 @@
             <div class="col-12 px-0 mb-auto">
               <h1 class="display-4 mb-0">
                 {{ page.title | default: site.title }} {% if page.append_event %}&mdash; {{ site.event_title }}{% endif %}
-                {% if page.company %}<br><p class="lead fs-1">{{ page.company }}</p>{% endif %}
+                {% if page.company or page.artist %}<br><p class="lead fs-1">{{ page.company | default: page.artist }}</p>{% endif %}
               </h1>
             </div>
           </div>

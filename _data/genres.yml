@@ -4,7 +4,8 @@
   color: 872184
 - name: Musicals and Opera 
   color: 05B4E5
-- name: Dance, Physical Theatre and Circus 
+- name: Dance Physical Theatre and Circus 
+  display_name: Dance, Physical Theatre, and Circus
   color: 69859B
 - name: Theatre 
   color: E81D54

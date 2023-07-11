@@ -1,18 +1,59 @@
 <div class="filters">
 	<h2 class="text-center">Search & Filter</h2>
+
+	<div class="filter-box" id="search-box">
+		<a class="filter-header" data-bs-toggle="collapse" href="#searchCollapse"><i class="fa fa-chevron-right"></i> <span>Search</span></a>
+		<div class="filter-body collapse show" id="searchCollapse">
+			<input class="form-control search-input" type="search" placeholder="Search" aria-label="Search for a show" id="search-input">
+		</div>
+	</div>
+
 	<div class="filter-box">
-		<a class="filter-header" data-bs-toggle="collapse" href="#datesCollapse"><i class="fa fa-chevron-right"></i> <span>Dates</span></a>
+		<a class="filter-header" data-bs-toggle="collapse" href="#datesCollapse"><i class="fa fa-chevron-right"></i> <span>Date & Time</span></a>
 		<div class="filter-body collapse" id="datesCollapse">
 			<span class="placeholder col-7"></span>
 			<span class="placeholder col-4"></span>
 			<span class="placeholder col-4"></span>
+
+			<div id="time_picker">
+				{% assign time_counter = 0 %}
+				{% assign first_time = site.fringe_time | date: "%s" %}
+				{% assign last_time = first_time | date: "%s" | plus: 82800 %} {% comment %} 23 hours {% endcomment %}
+
+				<span>Starting after</span>
+				<select class="form-select form-select-sm" id="time_picker_select" aria-label="Time picker">
+					<option value="false">---</option>
+					{% comment %}
+						Iterate from first time, adding 3600 until we get to last time (date is irrelevant)
+					{% endcomment %}
+					{% for i in (first_time..last_time) %}
+						{% assign the_time = first_time | plus: time_counter | date: "%H:%M" %}
+						<option value="{{ the_time | split: ":" | first }}">{{ the_time }}</option>
+
+						{% assign time_counter = time_counter | plus: 3600 %}
+						{% assign the_time = the_time | date: "%s" %}
+						{% if time_counter > 82800 %}
+							{% break %}
+						{% endif %}
+					{% endfor %}
+				</select>
+				<span class="help-text d-none" id="time_picker_text"><em>Only displaying shows with 1 performance time</em></span>
+			</div>
 		</div>
 	</div>
+
+	{% if site.test_data %}
+		{% assign show_venues = '' | split: '' %}
+		{% for s in site.data.shows %}
+			{% assign show_venues = show_venues | push: s.venue.name %}
+		{% endfor %}
+		{% assign show_venues = show_venues | uniq | sort %}
+	{% endif %}
 
 	{% if site.data.venues %}
 	<div class="filter-box">
 		<a class="filter-header" data-bs-toggle="collapse" href="#venuesCollapse"><i class="fa fa-chevron-right"></i> <span>Venue</span></a>
-		<div class="filter-body collapse show venue-list form-check" id="venuesCollapse">
+		<div class="filter-body collapse venue-list form-check" id="venuesCollapse">
 			<ul>
 				{% for venue in site.data.venues %}
 					<li><input class="form-check-input" type="checkbox" id="venue-{{ venue.name | slugify }}"><label class="form-check-label" for="venue-{{ venue.name | slugify }}">{{ venue.name }}</label></li>
@@ -24,32 +65,76 @@
 					</ul>
 					{% endif %}
 				{% endfor %}
+				{% if site.test_data %}
+					{% for venue in show_venues %}
+						<li><input class="form-check-input venue-{{ venue | slugify }}" name="filter-venue-item" type="checkbox" value="{{ venue | slugify }}" id="venue-{{ venue | slugify }}"><label class="form-check-label" for="venue-{{ venue | slugify }}">{{ venue }}</label></li>
+					{% endfor %}
+				{% endif %}
 			</ul>
 		</div>
 	</div>
 	{% endif %}
 	<div class="filter-box">
 		<a class="filter-header" data-bs-toggle="collapse" href="#genresCollapse"><i class="fa fa-chevron-right"></i> <span>Genres</span></a>
-		<div class="filter-body collapse show" id="genresCollapse">
+		<div class="filter-body collapse" id="genresCollapse">
 			{% comment %} We assign colours to certain genres, but in case there are some bonus ones given by shows we can add them here {% endcomment %}
-			{% assign all_genres = site.data.genres | map: "name" %}
-			{% assign show_genres = site.data.shows | map: "genre" | uniq %}
-			{% assign all_genres = all_genres | push: show_genres | uniq | sort %}
+			{% assign all_genres = '' | split: '' %}
+			{% if site.test_data %}
+				{% assign all_genres = site.data.genres | map: "name" %}
+				{% assign show_genres = site.data.shows | map: "genre" | uniq %}
+				{% assign all_genres = all_genres | push: show_genres | uniq | sort %}
+			{% else %}
+			{% assign all_genres = site.data.shows | map: "genre" | uniq | sort_natural %}
+			{% endif %}
+
 			{% for g in all_genres %}
-				{% include components/genre-badge.html genre=g %}
+				{% include components/genre-badge.html genre=g filter_list=true %}
 			{% endfor %}
 		</div>
 	</div>
+
+	{% assign show_ages = site.data.shows | map: "age_category" | uniq %}
+	{% comment %} Ages can come as numbers and as strings, so we separate them; sort the numbers numerically; then add the strings back in. Sorting them all as strings sorts all the tens, then all the units, and results in 18, 5, then 7{% endcomment %}
+	{% assign age_nums = "" | split: "" %}
+	{% assign age_strings = "" | split: "" %}
+	{% for sa in show_ages %}
+		{% assign a = sa | downcase | remove: "ages" | remove: "+" | strip %}
+		{% assign a_raw = a | jsonify | remove: '"' %}
+		{% assign a_num = a_raw | times: 1 | jsonify %}
+
+		{% if a_raw == a_num %}
+			{% comment %}If multiplied by 1 is the same, then it's a number {% endcomment %}
+			{% assign a_float = a_num | times: 1.0 %}
+			{% assign age_nums = age_nums | push: a_float %}
+		{% else %}
+			{% assign age_strings = age_strings | push: a_raw %}
+		{% endif %}
+	{% endfor %}
+	{% assign show_ages = age_nums | sort %}
+	{% assign age_strings = age_strings | sort_natural %}
+	{% for a in age_strings %}
+		{% assign show_ages = show_ages | push: a %}
+	{% endfor %}
+	{% if show_ages and show_ages != empty %}
 	<div class="filter-box">
 		<a class="filter-header" data-bs-toggle="collapse" href="#ageCollapse"><i class="fa fa-chevron-right"></i> <span>Age</span> Guidance</a>
-		<div class="filter-body collapse" id="ageCollapse">
-			3+
-			7+
-			18+
+		<div class="filter-body collapse age-list form-check" id="ageCollapse">
+			<ul>
+				{% for age in show_ages %}
+					{% if age and age != empty %}
+						<li>
+							{% assign the_age = age | downcase | remove: "ages" %}
+							<input class="form-check-input age-{{ the_age | slugify }}" name="filter-age-item" type="checkbox" value="{{ the_age | remove: ".0"  }}" id="age-{{ the_age | slugify }}"><label class="form-check-label" for="age-{{ the_age | slugify }}">{{ the_age | replace: ".0", "+" | capitalize }}</label>
+						</li>
+					{% endif %}
+				{% endfor %}
+			</ul>
 		</div>
 	</div>
+	{% endif %}
 </div>
-<button class="update-results" id="update_results">Update results</button>
+<button class="update-results" type="button" id="update_results" data-bs-dismiss="offcanvas" data-bs-target="#whatson-sidebar">Update results</button>
+<button class="clear-results d-none" type="button" id="clear_results" data-bs-dismiss="offcanvas" data-bs-target="#whatson-sidebar">Reset all</button>
 
 <script>
 	// Loop over venues and make the nested tickboxes work, including indeterminate venues for some spaces being ticked

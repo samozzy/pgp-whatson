@@ -1,1 +1,1 @@
-{% capture show_link %}{{ site.baseurl }}{{ include.show.title | datapage_url: '/' | remove_first: '/' }}{% endcapture %}
+{% capture show_link %}{{ site.baseurl }}{{ include.show.title | replace: '.', '' | datapage_url: '/' | remove_first: '/' }}{% endcapture %}
