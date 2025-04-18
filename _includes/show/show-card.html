@@ -46,7 +46,7 @@
               {%- if show_start_time -%}&nbsp;&middot;&nbsp;{%- endif -%} 
             {%- endif -%}
             {{ show_start_time }} 
-            {%- if show_duration -%}({{ show_duration | strip }}) 
+            {%- if show_duration -%}&nbsp;({{ show_duration | strip }}) 
               {%- if preview_time -%}<br>
                 <small>Preview{%- if preview_dates.size > 1 -%}s{%- endif -%} on {{ preview_dates | join: ", " }} {%- unless preview_time == show_start_time -%}at {{ preview_time }}{%- endunless -%}</small>
               {%- endif -%}
