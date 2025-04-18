@@ -1,0 +1,8 @@
+{%- if include.show -%}
+	{% if site.non_api_links %}
+		{%- assign show_link = show.title | slugify -%}
+		{%- assign show_url = site.fringe_url_link | append:show_link | append:"/" -%}
+	{% else %}
+		{%- assign show_url = show.website -%}
+	{%- endif -%}
+{%- endif -%}

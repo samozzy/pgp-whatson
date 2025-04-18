@@ -7,12 +7,14 @@ url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: paradisegreenuk 
 github_username:  samozzy
 timezone: Europe/Edinburgh
-event_title: Fringe 2024
+event_title: Fringe 2025
 
 fringe_time: 2023-08-01 00:00 
-start_date: 2024-08-01
-end_date: 2024-08-28
+start_date: 2025-08-01
+end_date: 2025-08-30
 # test_date: 2023-08-09 14:30
+non_api_links: true 
+fringe_url_link: "https://www.edfringe.com/tickets/whats-on/"
 
 paradise_blue: 0B0099
 
