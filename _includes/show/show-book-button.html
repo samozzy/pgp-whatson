@@ -1,5 +1,5 @@
 {% assign show = include.show %}
-{% include manipulation/show-link.html show=show %}
+{% include manipulation/show-url.html show=show %}
 <a href="{{ show_url | remove: '\' }}" class="btn btn-book {{ include.classes }} " style="position:relative;" target="_blank">
 	<span>Book Tickets</span>
 </a>
