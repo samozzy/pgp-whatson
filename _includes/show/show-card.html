@@ -1,7 +1,7 @@
-{% assign show = include.show %}
-{% include show/show-link.html show=show %}
-{% include show/show-start-time.html show=show date=include.performance_date %}
-{% include show/show-date-range.html show=show %}
+{%- assign show = include.show -%}
+{%- include show/show-link.html show=show -%}
+{%- include show/show-start-time.html show=show date=include.performance_date -%}
+{%- include show/show-date-range.html show=show -%}
 
 <div class="col show-card-col"
     data-show_search="{{ show.title | downcase | remove: ' ' }} {{ show.company | downcase | remove: ' ' }}" 
@@ -11,60 +11,60 @@
     data-show_sort_time="{{ standard_start_time | default: show_start_time | remove: ':' }}"
     data-show-previews="{{ preview_time | split: ':' | first }}"
     data-show_age_guidance="{{ show.age_category | downcase | remove: 'ages' | slugify | default: '' }}"
-    data-show_performances="{% for p in p_dates %}{{ p }}{% endfor %}"
+    data-show_performances="{%- for p in p_dates -%}{{ p }}{%- endfor -%}"
     data-show_price="{{ show.price.standard | default: show.price.concession }}"
     data-show_genre="{{ show.genre | join:',' | slugify }}"
-    data-show_access="{% if show.disabled.captioning %}captioning{% endif %} {% if show.disabled.audio %}audio_description{% endif %} {% if show.disabled.signed %}signed{% endif %} {% if show.disabled.other_services_information contains "Relaxed" %}relaxed{% endif %} {% if show.access and show.access != empty %}{{ show.access | join: ',' | downcase | slugify | default: '' }}{% endif %}"
+    data-show_access="{%- if show.disabled.captioning -%}captioning{%- endif -%} {%- if show.disabled.audio -%}audio_description{%- endif -%} {%- if show.disabled.signed -%}signed{%- endif -%} {%- if show.disabled.other_services_information contains "Relaxed" -%}relaxed{%- endif -%} {%- if show.access and show.access != empty -%}{{ show.access | join: ',' | downcase | slugify | default: '' }}{%- endif -%}"
     data-show_content_warnings="{{ show.content_warnings | join: ',' | slugify }}"
     data-show_venue="{{ show.venue.name | slugify }}"
     data-show_performance_today="{{ performance_today | default: false }}"
-    data-show_performance_space="{% if site.test_data == true %}{{ show.venue.name | slugify }}{% else %}{% assign perf_space = show.performance_space[0].name | default: show.performance_space.name %}{{ perf_space | slugify }}{% endif %}"
+    data-show_performance_space="{%- if site.test_data == true -%}{{ show.venue.name | slugify }}{%- else -%}{%- assign perf_space = show.performance_space[0].name | default: show.performance_space.name -%}{{ perf_space | slugify }}{%- endif -%}"
     id="{{ show.title | slugify }}"
 >
   <div class="show-card h-100" style="position: relative;">
-    <div class="show-card-background" style="background-image:url('{% link {{ include.background | default: "static/band/vstroke-blue-2.png" }} %}');"></div>
+    <div class="show-card-background" style="background-image:url('{%- link {{ include.background | default: "static/band/vstroke-blue-2.png" }} -%}');"></div>
     <div class="poster-wrap py-5 pe-sm-3">
       <div class="show-poster">
-        <a href="{{ show_link }}">{% include show/show-get-poster.html show=show %}</a>
-        {% include show/show-meta.html show=show class='shadow' hide_venue=include.hide_venue %}
+        <a href="{{ show_link }}">{%- include show/show-get-poster.html show=show -%}</a>
+        {%- include show/show-meta.html show=show class='shadow' hide_venue=include.hide_venue -%}
       </div>
       <div class="wrap-content">
         <div class="card-header">
-          <h2 {% if include.upcoming %}class="text-center"{% endif %}><a href="{{ show_link }}">{{ show.title }}</a></h2>
-          {% if include.upcoming %}
-            {% assign venue = site.data.venues | where_exp: "venue", "venue.name == show.venue.name" | first %}
-            {% if venue and venue.logo %}
+          <h2 {%- if include.upcoming -%}class="text-center"{%- endif -%}><a href="{{ show_link }}">{{ show.title }}</a></h2>
+          {%- if include.upcoming -%}
+            {%- assign venue = site.data.venues | where_exp: "venue", "venue.name == show.venue.name" | first -%}
+            {%- if venue and venue.logo -%}
             <div>
-              <img class="venue-logo" src="{% link {{ venue.logo }} %}" alt="{{ venue.name }} logo">
+              <img class="venue-logo" src="{%- link {{ venue.logo }} -%}" alt="{{ venue.name }} logo">
             </div>
-            {% endif %}
-          {% endif %}
+            {%- endif -%}
+          {%- endif -%}
           <p class="lead">{{ show.artist }}
-            {% if date_string and show.artist or show_start_time and show.artist%}<br>{% endif %}
-            {% if date_string %}
+            {%- if date_string and show.artist or show_start_time and show.artist%}<br>{%- endif -%}
+            {%- if date_string -%}
               {{ date_string }}
-              {% if show_start_time %}&middot;{% endif %} 
-            {% endif %}
+              {%- if show_start_time -%}&middot;{%- endif -%} 
+            {%- endif -%}
             {{ show_start_time }} 
-            {% if show_duration %}({{ show_duration | strip }}) 
-              {% if preview_time %}<br>
-                <small>Preview{% if preview_dates.size > 1 %}s{% endif %} on {{ preview_dates | join: ", " }} {% unless preview_time == show_start_time %}at {{ preview_time }}{% endunless %}</small>
-              {% endif %}
-            {% endif %}
-            {% if performance_today %}
+            {%- if show_duration -%}({{ show_duration | strip }}) 
+              {%- if preview_time -%}<br>
+                <small>Preview{%- if preview_dates.size > 1 -%}s{%- endif -%} on {{ preview_dates | join: ", " }} {%- unless preview_time == show_start_time -%}at {{ preview_time }}{%- endunless -%}</small>
+              {%- endif -%}
+            {%- endif -%}
+            {%- if performance_today -%}
               <br><br><span class="lead"><strong>Next performance: {{ performance_today | date: "%H:%M" }}</strong></span><br>
-            {% endif %}
+            {%- endif -%}
           </p>
         </div>
       </div>
-      {% unless include.upcoming %}
+      {%- unless include.upcoming -%}
         <div class="body-wrapper">
           <div class="show-card-buttons d-flex flex-row justify-items-between mb-4">
-            {% include show/show-book-button.html show=show %}
+            {%- include show/show-book-button.html show=show -%}
           </div>
-          {% include show/show-card-body.html show=show %}
+          {%- include show/show-card-body.html show=show -%}
         </div>
-      {% endunless %}
+      {%- endunless -%}
     </div>
   </div>
 </div>

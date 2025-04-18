@@ -1,4 +1,4 @@
-{% comment %}
+{%- comment -%}
 	Take a date in 'normal time' and turn it into 'Fringe time' 
 		- aka, roll the date back a day if the performance time is between midnight and site.fringe_time
 
@@ -7,16 +7,16 @@
 	3. Otherwise, leave it be 
 	(site.fringe_time is the time the new day starts in fringeland)
 
-{% endcomment %}
-{% assign fringe_time = site.fringe_time | date: "%H:%M" | date: "%s" %}
-{% assign midnight = "2023-08-01 00:00" | date: "%H:%M" | date: "%s" %}
-{% if include.picked_performance %}
-	{% assign picked_date = include.picked_performance | date: "%Y-%m-%d" %}
-	{% assign picked_time = include.picked_performance | date: "%H:%M" | date: "%s" %}
+{%- endcomment -%}
+{%- assign fringe_time = site.fringe_time | date: "%H:%M" | date: "%s" -%}
+{%- assign midnight = "2023-08-01 00:00" | date: "%H:%M" | date: "%s" -%}
+{%- if include.picked_performance -%}
+	{%- assign picked_date = include.picked_performance | date: "%Y-%m-%d" -%}
+	{%- assign picked_time = include.picked_performance | date: "%H:%M" | date: "%s" -%}
 
-	{% if picked_time >= midnight and picked_time < fringe_time %}
-		{% assign new_perf = include.picked_performance | date: "%s" | minus: 86400 | date: "%Y-%m-%d %H:%M" %}
-	{% else %}
-		{% assign new_perf = include.picked_performance | date: "%Y-%m-%d %H:%M" %}
-	{% endif %}
-{% endif %}
+	{%- if picked_time >= midnight and picked_time < fringe_time -%}
+		{%- assign new_perf = include.picked_performance | date: "%s" | minus: 86400 | date: "%Y-%m-%d %H:%M" -%}
+	{%- else -%}
+		{%- assign new_perf = include.picked_performance | date: "%Y-%m-%d %H:%M" -%}
+	{%- endif -%}
+{%- endif -%}

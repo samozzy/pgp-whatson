@@ -1,66 +1,66 @@
-{% assign show = include.show %}
-{% assign show_start_time = nil %}
-{% assign standard_start_time = nil %}
-{% assign show_duration = nil %}
-{% assign p_start_time = nil %}
-{% assign preview_time = nil %}
-{% assign preview_dates = '' | split: '' %}
-{% assign performance_today = false %}
-{% if include.date %}
-	{% assign today_date = include.date | date: "%Y-%m-%d" %}
-{% else %}
-	{% assign today_date = 'now' | date: "%Y-%m-%d" %}
-{% endif %}
+{%- assign show = include.show -%}
+{%- assign show_start_time = nil -%}
+{%- assign standard_start_time = nil -%}
+{%- assign show_duration = nil -%}
+{%- assign p_start_time = nil -%}
+{%- assign preview_time = nil -%}
+{%- assign preview_dates = '' | split: '' -%}
+{%- assign performance_today = false -%}
+{%- if include.date -%}
+	{%- assign today_date = include.date | date: "%Y-%m-%d" -%}
+{%- else -%}
+	{%- assign today_date = 'now' | date: "%Y-%m-%d" -%}
+{%- endif -%}
 
-{% if show.performances and show.performances != empty %}
+{%- if show.performances and show.performances != empty -%}
 
-	{% assign show_performances = show.performances | sort: "start" %}
-	{% for p in show_performances %}
-		{% assign p_start_time = p.start | date: "%H:%M" %}
-		{% include manipulation/fringe-time.html picked_performance=p.start %}
-		{% assign new_perf_date = new_perf | date: "%Y-%m-%d" %}
-		{% if new_perf_date == today_date %}
-			{% assign performance_today = new_perf %}
-		{% endif %}
+	{%- assign show_performances = show.performances | sort: "start" -%}
+	{%- for p in show_performances -%}
+		{%- assign p_start_time = p.start | date: "%H:%M" -%}
+		{%- include manipulation/fringe-time.html picked_performance=p.start -%}
+		{%- assign new_perf_date = new_perf | date: "%Y-%m-%d" -%}
+		{%- if new_perf_date == today_date -%}
+			{%- assign performance_today = new_perf -%}
+		{%- endif -%}
 
-		{% if p.title == "PREVIEW" %}
-			{% comment %} Handle previews separately to standard performances {% endcomment %}
-			{% if preview_time != nil and preview_time != p_start_time %}
-				{% assign preview_time = "Various times" %}
-			{% else %}
-				{% assign preview_time = p_start_time %}
-			{% endif %}
-			{% assign preview_date = new_perf | date_to_long_string: "ordinal" %}
-			{% assign month_year = preview_date | date: "%B %Y" %}
-			{% assign preview_date = preview_date | remove: month_year | strip %}
-			{% assign preview_dates = preview_dates | push: preview_date %}
-		{% else %}
-			{% if show_start_time != nil and show_start_time != p_start_time %}
-				{% assign show_start_time = "Various times" %}
-			{% else %}
-				{% assign show_start_time = p_start_time %}
-			{% endif %}
-		{% endif %}
+		{%- if p.title == "PREVIEW" -%}
+			{%- comment -%} Handle previews separately to standard performances {%- endcomment -%}
+			{%- if preview_time != nil and preview_time != p_start_time -%}
+				{%- assign preview_time = "Various times" -%}
+			{%- else -%}
+				{%- assign preview_time = p_start_time -%}
+			{%- endif -%}
+			{%- assign preview_date = new_perf | date_to_long_string: "ordinal" -%}
+			{%- assign month_year = preview_date | date: "%B %Y" -%}
+			{%- assign preview_date = preview_date | remove: month_year | strip -%}
+			{%- assign preview_dates = preview_dates | push: preview_date -%}
+		{%- else -%}
+			{%- if show_start_time != nil and show_start_time != p_start_time -%}
+				{%- assign show_start_time = "Various times" -%}
+			{%- else -%}
+				{%- assign show_start_time = p_start_time -%}
+			{%- endif -%}
+		{%- endif -%}
 
-		{% if show_duration and show_duration != p.duration_minutes %}
-			{% assign show_duration = 'Various durations' %}
-		{% else %}
-			{% assign show_duration = p.duration_minutes %}
-		{% endif %}
-	{% endfor %}
+		{%- if show_duration and show_duration != p.duration_minutes -%}
+			{%- assign show_duration = 'Various durations' -%}
+		{%- else -%}
+			{%- assign show_duration = p.duration_minutes -%}
+		{%- endif -%}
+	{%- endfor -%}
 
-	{% if show_start_time != "Various times" and preview_time != nil and preview_time != show_start_time %}
-		{% assign standard_start_time = show_start_time %}
-	{% endif %}
-{% endif %}
+	{%- if show_start_time != "Various times" and preview_time != nil and preview_time != show_start_time -%}
+		{%- assign standard_start_time = show_start_time -%}
+	{%- endif -%}
+{%- endif -%}
 
-{% if show_duration and show_duration != nil and show_duration != 'Various' %}
-	{% include manipulation/mins-duration.html minutes=show_duration %}
-	{% assign show_duration = duration %}
-{% endif %}
+{%- if show_duration and show_duration != nil and show_duration != 'Various' -%}
+	{%- include manipulation/mins-duration.html minutes=show_duration -%}
+	{%- assign show_duration = duration -%}
+{%- endif -%}
 
-{% comment %}
+{%- comment -%}
 1. Assign the start time to be the first start time we come across
 2. Check is_at_fixed_time == true 
 3. If not, return 'Various times'
-{% endcomment %}
+{%- endcomment -%}

@@ -4,12 +4,12 @@ layout: default
 
 {{ content }} 
 
-{% if site.data.shows %}
+{%- if site.data.shows -%}
 	<div class="loading mb-4 d-none">
 		<div class="spinner mx-auto"></div>
 	</div>
 	<div class="row row-cols-1 row-cols-md-2 row-cols-lg-1 row-cols-xl-2 g-4">
-		{% for i in (1..4) %}
+		{%- for i in (1..4) -%}
 			<div class="loading col d-none">
 				<div class="show-card h-100">
 					<div class="poster-wrap">
@@ -47,14 +47,14 @@ layout: default
 					</div>
 				</div>
 			</div>
-		{% endfor %}
+		{%- endfor -%}
 	</div>
 	<div class="row row-cols-1 row-cols-md-2 row-cols-lg-1 row-cols-xl-2 g-4" id="show_list">
-		{% assign shows_by_title = site.data.shows | sort: 'title' %}
-		{% for show in shows_by_title %}
-			{% include show/show-card.html show=show %}
-		{% endfor %}
+		{%- assign shows_by_title = site.data.shows | sort: 'title' -%}
+		{%- for show in shows_by_title -%}
+			{%- include show/show-card.html show=show -%}
+		{%- endfor -%}
 		<p class="lead d-none results-counter" id="results_counter"></p>
 		<p class="lead text-center d-none no-results" id="no_results">There are no results, try clearing your filters or search terms.</p>
 	</div>
-{% endif %}
+{%- endif -%}
