@@ -43,7 +43,7 @@
             {%- if date_string and show.artist or show_start_time and show.artist%}<br>{%- endif -%}
             {%- if date_string -%}
               {{ date_string }}
-              {%- if show_start_time -%}&middot;{%- endif -%} 
+              {%- if show_start_time -%}&nbsp;&middot;&nbsp;{%- endif -%} 
             {%- endif -%}
             {{ show_start_time }} 
             {%- if show_duration -%}({{ show_duration | strip }}) 
