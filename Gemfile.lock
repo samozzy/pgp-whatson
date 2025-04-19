@@ -147,7 +147,7 @@ GEM
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.4.2)
-    webrick (1.8.1)
+    webrick (1.8.2)
     zeitwerk (2.6.8)
 
 PLATFORMS
@@ -160,7 +160,7 @@ DEPENDENCIES
   http_parser.rb!
   jekyll (~> 4.3.2)
   jekyll-datapage-generator
-  webrick (~> 1.7)
+  webrick (~> 1.8)
 
 BUNDLED WITH
    2.3.10
