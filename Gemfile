@@ -6,6 +6,6 @@ gem "jekyll", "~> 4.3.2"
 gem 'bootstrap', '~> 5.2'
 
 # Need this if/when using Ruby 3+
-gem "webrick", "~> 1.7"
+gem "webrick", "~> 1.8"
 
 gem "jekyll-datapage-generator"
