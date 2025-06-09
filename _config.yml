@@ -67,6 +67,9 @@ collections:
   upcoming:
     output: true 
     permalink: upcoming/:path/
+  bar:
+    output: true 
+    permalink: bar/:path/
 
 page_gen-dirs: true 
 page_gen:
@@ -94,4 +97,9 @@ defaults:
       type: upcoming 
     values: 
       layout: upcoming/upcoming
+      hide_footer: true 
+  - scope: 
+      type: bar 
+    values: 
+      layout: bar 
       hide_footer: true 
