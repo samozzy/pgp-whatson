@@ -1,0 +1,126 @@
+---
+layout: outer
+---
+
+<div class="container-fluid nownext h-100" id="bar_wrapper">
+	<div class="row my-5" id="bar_title">
+        <div class="col-8">
+            {% if page.venue %}
+                <h1 class="display-1">{{ page.venue }}</h1>
+            {% endif %}
+            <h2 class="display-3">{{ page.title }}</h2>
+        </div>
+        <div class="col-4 text-end">
+			<img src="{% link static/logos/paradise-logo.png %}" alt="Paradise Green Logo" height="150px" width="auto" class="mx-4">
+		</div>
+	</div>
+	<div class="bar-content">
+        {% assign venue_settings = site.data.bar_settings | where: "venue", page.venue | first %}
+        <div class="container-fluid">
+            {% if site.data.bar %}
+                <div class="row px-5 d-block">
+                    {% assign float = false %}
+                    {% for category in site.data.bar %}
+                        {% assign this_setting = venue_settings.category | where: "name", category.category | first %}
+                        {% if category.full_height %}{% assign float = true %}{% endif %}
+                        <div class="{% unless this_setting.display %}d-none{% endunless %} mx-auto col-6 {% if float %}float-start{% endif %} {% if category.full_height %}full-height{% endif %} mb-4" id="display_{{ category.slug | default:category.name | slugify | replace: "-","_" }}">
+                            <div class="category">
+                                <h2>{{ category.category }}</h2>
+                                {% if category.types %}
+                                    {% for type in category.types %}
+                                        <h4>{{ type.name }}</h4>
+                                        {% for item in type.items %}
+                                            {% include bar/item-list.html item=item %}
+                                        {% endfor %}
+                                    {% endfor %}
+                                {% else %}
+                                    {% for item in category.items %}
+                                        {% include bar/item-list.html item=item  %}
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                            </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-center"><em>No bar data available</em></p>
+            {% endif %}
+        </div>
+	</div>
+</div>
+<div class="container-fluid" id="last_updated">
+	<div class="row my-5">
+		<div class="col-12 text-center">
+			<h1 class="nownext-website">whatson.paradise-green.co.uk</h1>
+		</div>
+	</div>
+</div>
+<div class="container-fluid mt-auto">
+	<div class="row py-3 d-none">
+		<div class="col-9 offset-1 my-auto text-center">
+			<h1 class="nownext-website">whatson.paradise-green.co.uk</h1>
+		</div>
+		<div class="col-2 my-auto text-center">
+			<img src="{% link static/logos/qr.png %}" alt="QR code for whatson.paradise-green.co.uk" class="img-fluid w-75">
+		</div>
+	</div>
+</div>
+
+<script>
+    const venue_properties = ['display_alcohol', 'display_soft_drinks', 'display_hot_drinks', 'display_snacks']
+    let lastStates = new Array(venue_properties.length)
+    let currentStates = new Array(venue_properties.length)
+
+    function arrayEquality(a, b){
+        let arrayEq = false 
+        if (a.length === b.length) {
+            arrayEq = a.every((val, i) => val === b[i])
+        }
+        return arrayEq
+    }
+
+    function pollScreenSettings() {
+        fetch('{{ site.signage.bar_endpoint }}{% if page.venue %}?name={{ page.venue | uri_escape }}{% endif %}')
+        .then(res => {
+            if (!res.ok) throw new Error('Connection failed');
+            return res.json();
+        })
+        .then(data => {
+            this_venue = data[0]
+            for (c in currentStates){
+                currentStates[c] = this_venue[venue_properties[c]]
+            }
+            if (!arrayEquality(currentStates, lastStates) || (currentStates[0] === undefined) ){
+                console.log("Display Settings updated")
+                for (v in venue_properties){
+                    v_prop = venue_properties[v]
+                    let l = document.getElementById(v_prop)
+                    let v_setting = this_venue[v_prop]
+                    if (l){
+                        if (v_setting) {
+                            l.classList.remove('d-none')
+                        }
+                        else {
+                            l.classList.add('d-none')
+                        }
+                    }
+                    currentStates[v] = v_setting
+                }
+                lastStates = [...currentStates]
+            }
+        })
+        .catch(err => {
+        console.error('An error has occurred', err);
+        });
+    }
+
+    // Poll every 3 seconds
+    var pollInterval = setInterval(pollScreenSettings, 3000);
+    pollScreenSettings();
+
+    function stopPoll(){
+        clearInterval(pollInterval)
+    }
+
+</script>
+
