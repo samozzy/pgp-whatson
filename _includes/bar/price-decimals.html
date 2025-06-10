@@ -1,0 +1,10 @@
+{%- assign price = include.price | times: 1 -%}
+{%- assign price_rounded = price | round -%}
+{%- if price_rounded == price -%}
+	{{ price }}
+{%- else -%}
+	{%- assign price_split = price | round: 2 | split: "." -%}
+	{%- assign integral = price_split[0] -%}
+	{%- assign fractional = price_split[1] | append: "00" | truncate: 2, "" -%}
+	{{ integral }}.{{ fractional }}
+{%- endif -%}

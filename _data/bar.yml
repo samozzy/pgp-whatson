@@ -1,0 +1,113 @@
+- category: Alcoholic Drinks 
+  slug: alcohol
+  full_height: true 
+  types:
+    - name: Beer 
+      items: 
+        - name: Moretti
+          sizes: 
+            - name: half
+              price : 3
+            - name: pint
+              price : 5
+        - name: Stewarts 
+          sizes: 
+            - name: half 
+              price: 3 
+            - name: pint 
+              price: 5.5
+        - name: Heineken 0%
+          sizes: 
+            - name: half 
+              price: 2.5
+            - name: pint 
+              price: 4.5
+    - name: Cider 
+      items: 
+        - name: Inch's 
+          sizes:
+            - name: half
+              price: 3
+            - name: pint
+              price: 5
+    - name: White Wine  
+      items: 
+        - name: Sauvignon Blanc 
+          sizes: 
+            - name: small
+              price: 3
+            - name: medium
+              price: 4.5
+            - name: large
+              price: 6
+    - name: Red Wine 
+      items:
+        - name: Cabernet Sauvignon 
+          subname: red 
+          sizes: 
+            - name: small
+              price: 3
+            - name: medium
+              price: 4.5
+            - name: large
+              price: 6
+    - name: Spirit 
+      items: 
+        - name: Gordon's 
+          sizes: 
+            - name: single
+              price: 3
+            - name: double
+              price: 4.5
+        - name: Jack Daniel's 
+          sizes: 
+            - name: single
+              price: 3
+            - name: double
+              price: 4.5
+- category: Soft Drinks 
+  slug: soft_drinks
+  items: 
+    - name: Coke 
+      sizes:
+        - name: Half
+          price: 2.5 
+        - name: Pint 
+          price: 4
+    - name: Diet Coke 
+      sizes:
+        - name: Half
+          price: 2.5 
+        - name: Pint 
+          price: 4
+    - name: Sprite 
+      sizes:
+        - name: Half
+          price: 2.5 
+        - name: Pint 
+          price: 4
+    - name: Fanta
+      sizes:
+        - name: Half
+          price: 2.5 
+        - name: Pint 
+          price: 4
+- category: Hot Drinks 
+  slug: hot_drinks
+  items: 
+    - name: Tea 
+      price: 2
+    - name: Coffee 
+      price: 2 
+- category: Snacks
+  items: 
+    - name: Cadbury Milk Buttons 
+      price: 5 
+    - name: Malteasers 
+      price: 5
+    - name: Haribo
+      options: Starmix, Supermix, Tangfastics  
+      price: 4.5 
+    - name: Pringles 
+      options: Ready Salted, Sour Cream & Chive, Salt & Vineger 
+      price: 3 

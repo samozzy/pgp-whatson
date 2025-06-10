@@ -167,7 +167,7 @@
 		{%- endfor -%}
 		{%- if has_access -%}
 			<div class="filter-box">
-				<a class="filter-header" data-bs-toggle="collapse" href="#accessCollapse"><i class="fa fa-chevron-right dropdown-chevron"></i> <span>Access</a>
+				<a class="filter-header" data-bs-toggle="collapse" href="#accessCollapse"><i class="fa fa-chevron-right dropdown-chevron"></i> <span>Access</span></a>
 				<div class="filter-body collapse age-list form-check" id="accessCollapse">
 					<ul>
 						{%- for access in site.data.access -%}
@@ -191,8 +191,9 @@
 <script>
 	// Loop over venues and make the nested tickboxes work, including indeterminate venues for some spaces being ticked
 	{%- for venue in site.data.venues -%}
-		{%- assign venue_slug = venue.name | slugify -%}
-		{%- assign venue_var = venue_slug | replace: '-', '_' -%}
+		{% assign venue_slug = venue.name | slugify %}
+		{% assign venue_var = venue_slug | replace: '-', '_' %}
+
 		var {{ venue_var }}_checkboxes = document.querySelectorAll('input.{{ venue_slug }}-spaces');
     	var {{ venue_var }}_checkall = document.getElementById('venue-{{ venue_slug }}');
 

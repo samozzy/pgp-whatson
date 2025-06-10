@@ -1,0 +1,20 @@
+- venue: Paradise in Augustines 
+  category: 
+    - name: Snacks  
+      display: true 
+    - name: Soft Drinks 
+      display: true 
+    - name: Hot Drinks 
+      display: true  
+    - name: Alcoholic Drinks 
+      display: false 
+- venue: Paradise in the Vault 
+  category: 
+    - name: Snacks  
+      display: true 
+    - name: Soft Drinks 
+      display: true 
+    - name: Hot Drinks 
+      display: true  
+    - name: Alcoholic Drinks 
+      display: false 
