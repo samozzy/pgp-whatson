@@ -2,7 +2,7 @@
 <div class="list-group row w-100 fs-5">
     <div class="list-group-item d-flex flex-row justify-content-between border-bottom border-secondary">
         <div>
-            {{ item.name }} 
+            {{ item.name }} {% if item.options %}<small><em>({{ item.options | join:"," }})</em></small>{% endif %}
         </div>
         {% if item.price or item.sizes %}
             <div class="ms-auto">
