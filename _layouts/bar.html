@@ -18,28 +18,41 @@ layout: outer
         {% assign venue_settings = site.data.bar_settings | where: "venue", page.venue | first %}
         <div class="container-fluid">
             {% if site.data.bar %}
-                <div class="row px-5 d-block">
+                <div class="row px-5">
                     {% assign float = false %}
+                    {% assign col_group = false %}
+                    {% comment %}Group non-full-height categories into their own column. Full heights, or the last in the loop, will close the column{% endcomment %}
                     {% for category in site.data.bar %}
                         {% assign this_setting = venue_settings.category | where: "name", category.category | first %}
-                        {% if category.full_height %}{% assign float = true %}{% endif %}
-                        <div class="{% unless this_setting.display %}d-none{% endunless %} mx-auto col-6 {% if float %}float-start{% endif %} {% if category.full_height %}full-height{% endif %} mb-4" id="display_{{ category.slug | default:category.name | slugify | replace: "-","_" }}">
-                            <div class="category">
-                                <h2>{{ category.category }}</h2>
-                                {% if category.types %}
-                                    {% for type in category.types %}
-                                        <h4>{{ type.name }}</h4>
-                                        {% for item in type.items %}
-                                            {% include bar/item-list.html item=item %}
-                                        {% endfor %}
-                                    {% endfor %}
+                        {% comment %}Capture the column ID, and either put it in the group for a full height, or the individual for not{% endcomment %}
+                        {% capture col_id %}display_{{ category.slug | default:category.category | slugify | replace: "-","_" }}{% endcapture %}
+                        {% if category.full_height or col_group == false %}
+                            <div {% if category.full_height %}
+                                class="col-6 mx-auto {% unless this_settings.display == false %}d-none{% endunless %}" 
+                                id="{{ col_id }}"
                                 {% else %}
-                                    {% for item in category.items %}
-                                        {% include bar/item-list.html item=item  %}
-                                    {% endfor %}
-                                {% endif %}
+                                class="col-6 mx-auto" {% endif %}>
+                        {% endif %}
+                            {% assign col_group = true %}
+                            <div class="{% unless category.full_height %}{% unless this_setting.display %}d-none{% endunless %}{% endunless %} mx-auto mb-4" 
+                                {% unless category.full_height %}id="{{ col_id }}"{% endunless %}>
+                                <div class="category">
+                                    <h2>{{ category.category }}</h2>
+                                    {% if category.types %}
+                                        {% for type in category.types %}
+                                            <h4>{{ type.name }}</h4>
+                                            {% for item in type.items %}
+                                                {% include bar/item-list.html item=item %}
+                                            {% endfor %}
+                                        {% endfor %}
+                                    {% else %}
+                                        {% for item in category.items %}
+                                            {% include bar/item-list.html item=item  %}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
                             </div>
-                            </div>
+                        {% if category.full_height or forloop.last %}</div>{% assign col_group = false %}{% endif %}
                     {% endfor %}
                 </div>
             {% else %}
@@ -48,20 +61,14 @@ layout: outer
         </div>
 	</div>
 </div>
-<div class="container-fluid" id="last_updated">
-	<div class="row my-5">
-		<div class="col-12 text-center">
-			<h1 class="nownext-website">whatson.paradise-green.co.uk</h1>
-		</div>
-	</div>
-</div>
 <div class="container-fluid mt-auto">
-	<div class="row py-3 d-none">
+	<div class="row py-3">
 		<div class="col-9 offset-1 my-auto text-center">
+            <h1 class="fw-light">See our programme at</h1>
 			<h1 class="nownext-website">whatson.paradise-green.co.uk</h1>
 		</div>
 		<div class="col-2 my-auto text-center">
-			<img src="{% link static/logos/qr.png %}" alt="QR code for whatson.paradise-green.co.uk" class="img-fluid w-75">
+			<img src="{% link static/logos/qr.png %}" alt="QR code for whatson.paradise-green.co.uk" class="img-fluid w-50">
 		</div>
 	</div>
 </div>
