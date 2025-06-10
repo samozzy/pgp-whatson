@@ -3,7 +3,7 @@ layout: outer
 ---
 
 <div class="container-fluid nownext h-100" id="bar_wrapper">
-	<div class="row my-5" id="bar_title">
+	<div class="row my-4" id="bar_title">
         <div class="col-8">
             {% if page.venue %}
                 <h1 class="display-1">{{ page.venue }}</h1>
@@ -18,7 +18,7 @@ layout: outer
         {% assign venue_settings = site.data.bar_settings | where: "venue", page.venue | first %}
         <div class="container-fluid">
             {% if site.data.bar %}
-                <div class="row px-5">
+                <div class="row px-4">
                     {% assign float = false %}
                     {% assign col_group = false %}
                     {% comment %}Group non-full-height categories into their own column. Full heights, or the last in the loop, will close the column{% endcomment %}
@@ -37,19 +37,24 @@ layout: outer
                             <div class="{% unless category.full_height %}{% unless this_setting.display %}d-none{% endunless %}{% endunless %} mx-auto mb-4" 
                                 {% unless category.full_height %}id="{{ col_id }}"{% endunless %}>
                                 <div class="category">
-                                    <h2>{{ category.category }}</h2>
-                                    {% if category.types %}
-                                        {% for type in category.types %}
-                                            <h4>{{ type.name }}</h4>
-                                            {% for item in type.items %}
-                                                {% include bar/item-list.html item=item %}
+                                    <span class="genre-badge w-50 mb-4" 
+                                        style="background-color: #DCDCE99a">
+                                        <span class="h3">{{ category.category }}</span>
+                                    </span>
+                                    <div class="px-4">
+                                        {% if category.types %}
+                                            {% for type in category.types %}
+                                                <h4>{{ type.name }}</h4>
+                                                {% for item in type.items %}
+                                                    {% include bar/item-list.html item=item %}
+                                                {% endfor %}
                                             {% endfor %}
-                                        {% endfor %}
-                                    {% else %}
-                                        {% for item in category.items %}
-                                            {% include bar/item-list.html item=item  %}
-                                        {% endfor %}
-                                    {% endif %}
+                                        {% else %}
+                                            {% for item in category.items %}
+                                                {% include bar/item-list.html item=item  %}
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
                                 </div>
                             </div>
                         {% if category.full_height or forloop.last %}</div>{% assign col_group = false %}{% endif %}
