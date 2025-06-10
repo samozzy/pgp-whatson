@@ -6,13 +6,13 @@ then
 	rm -f output.json 
 	touch output.json 
 	echo "# " $(date) >> output.json 
-	echo "[" >> output.json 
+	echo "["  >> output.json 
 
 	echo -e "\n\n FETCHING API DATA on $(date) \n\n"
 
-	venue_codes=(29 152)
+	venue_codes=(152 29)
 
-	# rm result.json - Debug
+	# rm result.json # - Debug
 
 	for venue in "${venue_codes[@]}"
 	do
@@ -26,8 +26,11 @@ then
 			raw_result=$(curl "https://api.edinburghfestivalcity.com/events?key=$API_KEY&signature=$API_SIGNATURE&pretty=1&festival=fringe&venue_code=${venue}&from=${i}&size=100")
 
 			# Each venue pull will be wrapped in [], so strip that so all the venues are together in one [].
-			result=$(echo "${raw_result}" | sed -e ':a' -e 'N' -e '$!ba' -e 's/\n\[/ /g' | sed -e ':a' -e 'N' -e '$!ba' -e 's/\n\]/ /g')
-			# echo "${result}" >> result.json - Debug
+			# 2023: result=$(echo "${raw_result}" | sed -e ':a' -e 'N' -e '$!ba' -e 's/\n\[/ /g' | sed -e ':a' -e 'N' -e '$!ba' -e 's/\n\]/ /g')
+
+			# With the 2025 API, the first and last lines are the only bits that need stripping, so...
+			result=$(echo "${raw_result}" | sed '1d' | sed '$d' )
+			# echo "${result}" >> result.json  # - Debug
 
 			len="${#result}" # How many characters is the response? If it's <5, assume we've run out of data 
 			if [ $len -lt 5 ]
@@ -37,11 +40,10 @@ then
 				else 
 					if [ $i -gt 0 ]
 					then 
-						echo "," >> output.json 
+						echo "]"  >> output.json 
 					fi
 					echo "${result}" >> output.json 
 			fi 
-
 			i=$((i + 99)) 
 			echo "LINE COUNT:"
 			cat output.json | wc -l
@@ -54,9 +56,7 @@ then
 		fi
 
 	done
-
 	echo "]" >> output.json 
-
 	mv output.json _data/shows.json 
 else
 	echo "Environment variables not present, aborting."
