@@ -48,7 +48,7 @@
             {{ show_start_time }} 
             {%- if show_duration -%}&nbsp;({{ show_duration | strip }}) 
               {%- if preview_time -%}<br>
-                <small>Preview&nbsp;{%- if preview_dates.size > 1 -%}s{%- endif -%} on {{ preview_dates | join: ", " }} {%- unless preview_time == show_start_time -%}&nbsp;at&nbsp;{{ preview_time }}{%- endunless -%}</small>
+                <small>Preview{%- if preview_dates.size > 1 -%}s{%- endif -%}&nbsp; on {{ preview_dates | join: ", " }} {%- unless preview_time == show_start_time -%}&nbsp;at&nbsp;{{ preview_time }}{%- endunless -%}</small>
               {%- endif -%}
             {%- endif -%}
             {%- if performance_today -%}
