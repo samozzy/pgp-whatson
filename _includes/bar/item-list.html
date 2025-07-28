@@ -9,7 +9,7 @@
                 {% if item.price %}£{% include bar/price-decimals.html price=item.price %}
                 {% else %}
                     {% if item.sizes %} 
-                        <div class="d-flex flex-row justify-content-between">
+                        <div class="d-flex flex-row justify-content-between small">
                             {% for size in item.sizes %}
                                 <div>{{ size.name | capitalize }} - £{% include bar/price-decimals.html price=size.price %}</div>
                                 <div>{% unless forloop.last %}&nbsp;//&nbsp;{% endunless %}</div>
