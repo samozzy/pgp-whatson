@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" href="/css/main.css?cachebust=202507272119">
+    <link rel="stylesheet" href="/css/main.css?cachebust=202507280005">
     <!-- FontAwesome -->
     <script src="https://kit.fontawesome.com/e464ea3a91.js" crossorigin="anonymous"></script>
 
@@ -178,7 +178,7 @@
 						</li></ul>
 		</div>
 	</div><div class="filter-box">
-				<a class="filter-header" data-bs-toggle="collapse" href="#accessCollapse"><i class="fa fa-chevron-right dropdown-chevron"></i> <span>Access</a>
+				<a class="filter-header" data-bs-toggle="collapse" href="#accessCollapse"><i class="fa fa-chevron-right dropdown-chevron"></i> <span>Access</span></a>
 				<div class="filter-body collapse age-list form-check" id="accessCollapse">
 					<ul><li>
 								<input class="form-check-input access-signed" name="filter-access-item" type="checkbox" value="signed" id="access-signed"><label class="form-check-label" for="access-signed">Signed Performances</label>
@@ -193,7 +193,10 @@
 <button class="clear-results d-none" type="button" id="clear_results" data-bs-dismiss="offcanvas" data-bs-target="#whatson-sidebar">Reset all</button>
 
 <script>
-	// Loop over venues and make the nested tickboxes work, including indeterminate venues for some spaces being tickedvar paradise_in_augustines_checkboxes = document.querySelectorAll('input.paradise-in-augustines-spaces');
+	// Loop over venues and make the nested tickboxes work, including indeterminate venues for some spaces being ticked
+		
+
+		var paradise_in_augustines_checkboxes = document.querySelectorAll('input.paradise-in-augustines-spaces');
     	var paradise_in_augustines_checkall = document.getElementById('venue-paradise-in-augustines');
 
 		for(var i=0; i<paradise_in_augustines_checkboxes.length; i++) {
@@ -216,7 +219,10 @@
 		  for(var i=0; i<paradise_in_augustines_checkboxes.length; i++) {
 		    paradise_in_augustines_checkboxes[i].checked = this.checked;
 		  }
-		}var paradise_in_the_vault_checkboxes = document.querySelectorAll('input.paradise-in-the-vault-spaces');
+		}
+		
+
+		var paradise_in_the_vault_checkboxes = document.querySelectorAll('input.paradise-in-the-vault-spaces');
     	var paradise_in_the_vault_checkall = document.getElementById('venue-paradise-in-the-vault');
 
 		for(var i=0; i<paradise_in_the_vault_checkboxes.length; i++) {
@@ -4266,6 +4272,7 @@
 	</p>
 </div>
     
+    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
 
     <!-- Bootstrap JS -->
     <!-- Popper is optional so uncomment if you use dropdowns, popovers, or tooltips. -->
