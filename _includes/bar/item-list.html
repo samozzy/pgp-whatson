@@ -1,0 +1,23 @@
+{% assign item = include.item %}
+<div class="list-group row w-100 fs-5">
+    <div class="list-group-item d-flex flex-row justify-content-between border-bottom border-secondary">
+        <div>
+            {{ item.name }} {% if item.options %}<small><em>({{ item.options | join:"," }})</em></small>{% endif %}
+        </div>
+        {% if item.price or item.sizes %}
+            <div class="ms-auto">
+                {% if item.price %}£{% include bar/price-decimals.html price=item.price %}
+                {% else %}
+                    {% if item.sizes %} 
+                        <div class="d-flex flex-row justify-content-between small">
+                            {% for size in item.sizes %}
+                                <div>{{ size.name | capitalize }} - £{% include bar/price-decimals.html price=size.price %}</div>
+                                <div>{% unless forloop.last %}&nbsp;//&nbsp;{% endunless %}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</div>

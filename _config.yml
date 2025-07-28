@@ -9,6 +9,10 @@ github_username:  samozzy
 timezone: Europe/Edinburgh
 event_title: Fringe 2025
 
+signage: 
+  bar_endpoint: false 
+  # bar_endpoint: "http://localhost:8000/api/screen/"
+
 fringe_time: 2023-08-01 00:00 
 start_date: 2025-08-01
 end_date: 2025-08-30
@@ -67,6 +71,9 @@ collections:
   upcoming:
     output: true 
     permalink: upcoming/:path/
+  bar:
+    output: true 
+    permalink: bar/:path/
 
 page_gen-dirs: true 
 page_gen:
@@ -94,4 +101,9 @@ defaults:
       type: upcoming 
     values: 
       layout: upcoming/upcoming
+      hide_footer: true 
+  - scope: 
+      type: bar 
+    values: 
+      layout: bar/bar
       hide_footer: true 
