@@ -1,0 +1,91 @@
+---
+layout: outer
+---
+
+<div class="container-fluid nownext h-100" id="bar_wrapper">
+	<div class="row my-4" id="bar_title">
+        <div class="col-8">
+            {% if page.venue %}
+                <h1 class="display-1">{{ page.venue }}</h1>
+            {% endif %}
+            <h2 class="display-3">{{ page.title }}</h2>
+        </div>
+        <div class="col-4 text-end">
+			<img src="{% link static/logos/paradise-logo.png %}" alt="Paradise Green Logo" height="150px" width="auto" class="mx-4">
+		</div>
+	</div>
+	<div class="bar-content">
+        {% assign venue_settings = site.data.bar_settings | where: "venue", page.venue | first %}
+        <div class="container-fluid">
+            {% assign bar_categories = "" %}
+            {% if site.data.bar and page.only %}
+                {% assign bar_categories = site.data.bar | where:"category",page.only | first %}
+            {% elsif site.data.bar or bar_categories == blank %}
+                {% assign bar_categories = site.data.bar | first %}
+            {% endif %}
+            {% if bar_categories %}
+                <div class="row px-4">
+                    <div class="col-5 mx-auto">
+                        <div class="category mb-5">
+                            <span class="genre-badge w-50 mb-4" style="background-color: #DCDCE99a">
+                                <span class="h3">Beer & Cider</span>
+                            </span>
+                                <strong>Beer</strong>
+                                {% assign beer = bar_categories.types | where:"name","Beer" | first %}
+                                {% for item in beer.items %}
+                                    {% include bar/item-list.html item=item %}
+                                {% endfor %}
+                                <strong>Cider</strong>
+                               {% assign cider = bar_categories.types | where:"name","Cider" | first %}
+                                {% for item in cider.items %}
+                                    {% include bar/item-list.html item=item %}
+                                {% endfor %}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-7 mx-auto">
+                        <div class="category mb-5">
+                            <span class="genre-badge w-50 mb-4" style="background-color: #DCDCE99a">
+                                <span class="h3">Wine</span>
+                            </span>
+                                <strong>White Wine</strong>
+                                {% assign white_wine = bar_categories.types | where:"name","White Wine" | first %}
+                                {% for item in white_wine.items %}
+                                    {% include bar/item-list.html item=item %}
+                                {% endfor %}
+                                <strong>Red Wine</strong>
+                               {% assign red_wine = bar_categories.types | where:"name","Red Wine" | first %}
+                                {% for item in red_wine.items %}
+                                    {% include bar/item-list.html item=item %}
+                                {% endfor %}
+                            </span>
+                        </div>
+                        <div class="category mb-5">
+                            <span class="genre-badge w-50 mb-4" style="background-color: #DCDCE99a">
+                                <span class="h3">Spirits</span>
+                            </span>
+                                {% assign spirits = bar_categories.types | where:"name","Spirit" | first %}
+                                {% for item in spirits.items %}
+                                    {% include bar/item-list.html item=item %}
+                                {% endfor %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <p class="text-center"><em>No bar data available</em></p>
+            {% endif %}
+        </div>
+	</div>
+</div>
+<div class="container-fluid mt-auto">
+	<div class="row py-3">
+		<div class="col-9 offset-1 my-auto text-center">
+            <h1 class="fw-light">See our programme at</h1>
+			<h1 class="nownext-website">whatson.paradise-green.co.uk</h1>
+		</div>
+		<div class="col-2 my-auto text-center">
+			<img src="{% link static/logos/qr.png %}" alt="QR code for whatson.paradise-green.co.uk" class="img-fluid w-50">
+		</div>
+	</div>
+</div>
