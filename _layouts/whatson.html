@@ -52,7 +52,9 @@ layout: default
 	<div class="row row-cols-1 row-cols-md-2 row-cols-lg-1 row-cols-xl-2 g-4" id="show_list">
 		{%- assign shows_by_title = site.data.shows | sort: 'title' -%}
 		{%- for show in shows_by_title -%}
-			{%- include show/show-card.html show=show -%}
+			{% unless show.hidden == true %}
+				{%- include show/show-card.html show=show -%}
+			{% endunless %}
 		{%- endfor -%}
 		<p class="lead d-none results-counter" id="results_counter"></p>
 		<p class="lead text-center d-none no-results" id="no_results">There are no results, try clearing your filters or search terms.</p>
