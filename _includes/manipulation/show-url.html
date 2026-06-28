@@ -1,5 +1,7 @@
 {%- if include.show -%}
-	{% if site.non_api_links %}
+	{% if show.custom_ticket_url %}
+		{%- assign show_url = show.custom_ticket_url %}
+	{% elsif site.non_api_links %}
 		{%- assign show_slug = show.title | slugify -%}
 		{%- assign show_url = site.fringe_url_link | append:show_slug | append:"/" -%}
 	{% else %}

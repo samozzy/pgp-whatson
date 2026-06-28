@@ -1,0 +1,158 @@
+    {
+        "festival_id": "fringe",
+        "title": "A Taste of Paradise",
+        "sub_title": null,
+        "status": "active",
+        "website": "https:\/\/www.edfringe.com\/tickets\/whats-on\/2026TASTE",
+        "custom_ticket_url": "2026TASTEOFPG",
+        "code": "2026TASTEOFPG",
+        "url": "https:\/\/api.edinburghfestivalcity.com\/events\/TASTEOFPG",
+        "year": 2026,
+        "venue": {
+            "id": "db8770342fdf063d3128150901ea357f68bb9001",
+            "name": "Paradise in Augustines",
+            "map_ref": null,
+            "code": "152",
+            "description": "Paradise Green is at the heart and soul of the largest arts festival in the world, presenting a wide range of top-quality performances. Visit our beautiful and friendly venue, relax with a drink from our snack bar before your performance and soak up the true atmosphere of the Fringe.",
+            "address": "41 George IV Bridge",
+            "post_code": "EH1 1EL",
+            "phone": "0131 510 0022",
+            "fax": null,
+            "email": null,
+            "disabled_description": "Limited access to some parts of venue site, Wheelchair accessible toilet, No reserved accessible parking, No on street blue badge parking, Assistance dogs welcome in all areas. The building is accessed from George IV Bridge, which has a wide pavement",
+            "has_booking_over_phone": null,
+            "has_booking_over_card": null,
+            "has_booking_over_web": null,
+            "box_office_opening": null,
+            "box_office_fringe": null,
+            "has_bar": null,
+            "has_cafe": null,
+            "cafe_description": null,
+            "web_address": "http:\/\/www.paradise-green.co.uk",
+            "is_virtual": null,
+            "position": {
+                "lat": 55.947554,
+                "lon": -3.191578
+            }
+        },
+        "performances": [
+            {
+                "type": "in-person",
+                "start": "2026-08-07 17:30:00",
+                "end": "2026-08-07 18:20:00",
+                "title": null,
+                "price": 0,
+                "price_type": "free",
+                "price_string": "\u00a30",
+                "is_at_fixed_time": true,
+                "duration_minutes": 50,
+                "accessibility": [],
+                "concession": 0,
+                "concession_family": null,
+                "concession_additional": null
+            }
+        ],
+        "performance_space": {
+            "name": "The Sanctuary",
+            "capacity": 110,
+            "wheelchair_access": true,
+            "age_limited": false,
+            "age_limit": null
+        },
+        "sub_venue": null,
+        "warnings": "None",
+        "fringe_first": null,
+        "description": "A Taste of Paradise Green's 2026 Edinburgh Festival programme, from Paradise in Augustines and Paradise in the Vault.",
+        "description_teaser": null,
+        "artist": "Paradise Green",
+        "artist_type": "Professional company",
+        "genre": "Theatre",
+        "genre_tags": "Theatre,Family-friendly",
+        "categories": {
+            "strand_titles": [],
+            "subjects": [],
+            "keywords": []
+        },
+        "discounts": {
+            "two_for_one": null,
+            "group": null,
+            "friends": null,
+            "passport": null,
+            "schools": null
+        },
+        "disabled": {
+            "audio": null,
+            "audio_dates": null,
+            "signed": null,
+            "signed_dates": null,
+            "captioning": null,
+            "captioning_dates": null,
+            "other_services": null,
+            "other_services_dates": null,
+            "other_services_information": null
+        },
+        "age_category": "12+",
+        "images": {
+            "8f03061d1c699188674b989d8751c8d4": {
+                "hash": "8f03061d1c699188674b989d8751c8d4",
+                "type": "thumb",
+                "orientation": "square",
+                "versions": {
+                    "original": {
+                        "type": "original",
+                        "width": 250,
+                        "height": 250,
+                        "mime": "image\/jpeg",
+                        "url": "/static/poster-tbc-square.png"
+                    },
+                    "square-75": {
+                        "type": "square-75",
+                        "width": 75,
+                        "height": 75,
+                        "mime": "image\/jpeg",
+                        "url": "/static/poster-tbc-square.png"
+                    },
+                    "thumb-100": {
+                        "type": "thumb-100",
+                        "width": 100,
+                        "height": 100,
+                        "mime": "image\/jpeg",
+                        "url": "https:\/\/images.api.edinburghfestivalcity.com\/F-180\/8f03061d1c699188674b989d8751c8d4-thumb-100.jpg"
+                    },
+                    "square-150": {
+                        "type": "square-150",
+                        "width": 150,
+                        "height": 150,
+                        "mime": "image\/jpeg",
+                        "url": "/static/poster-tbc-square.png"
+                    }
+                }
+            }
+        },
+        "twitter": null,
+        "country": "UK",
+        "performers_number": 10,
+        "non_english": null,
+        "related_content": [],
+        "festival": "Edinburgh Festival Fringe",
+        "updated": "2026-04-01 14:06:18",
+        "update_times": {
+            "identity": 1775048778,
+            "title": 1775048778,
+            "description": 1775048778,
+            "venue": 1775048778,
+            "performances": 1775048778,
+            "artist": 1775048778,
+            "genre": 1775048778,
+            "discounts": 1775048778,
+            "age_category": 1775048778,
+            "fringe_first": 1775048778,
+            "other": 1775048778,
+            "disabled": 1775048778,
+            "web_links": 1775048778,
+            "images": 1775048778,
+            "status": 1775048778
+        },
+        "latitude": 55.947554,
+        "longitude": -3.191578
+    }

@@ -56,6 +56,12 @@ then
 		fi
 
 	done
+	if [ -f _data/custom_events.json ]; then
+		echo "Adding custom events..."
+		echo "," >> output.json 
+		cat _data/custom_events.json >> output.json
+		echo "Custom events added."
+	fi
 	echo "]" >> output.json 
 	mv output.json _data/shows.json 
 else
