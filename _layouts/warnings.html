@@ -1,0 +1,28 @@
+---
+layout: default 
+--- 
+{% assign the_shows = site.data.shows | sort:"title" %}
+<div class="container-fluid">
+{% for show in the_shows %}
+    {%- include show/show-link.html show=show -%}
+    <div class="row mb-2">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body {% if show.warnings == "None" %}bg-secondary{% endif %}">
+                    <a href="{{ show_link }}" class="fs-4">{{ show.title }}</a><br>
+                    {% if show.warnings and show.warnings != "None" %}
+                        {% assign show_warnings = show.warnings | split:"," %}
+                        <strong>Warnings:</strong>
+                        <ul>
+                            {% for warning in show_warnings %}
+                                <li>{{ warning }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}<em>No content warnings</em>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+</ul>
