@@ -1,13 +1,13 @@
     {
-        "hidden": true,
+        "hidden": false,
         "festival_id": "fringe",
         "title": "A Taste of Paradise",
         "sub_title": null,
         "status": "active",
-        "website": "https:\/\/www.edfringe.com\/tickets\/whats-on\/2026TASTE",
-        "custom_ticket_url": "2026TASTEOFPG",
+        "website": "https://edfest.com/whats-on/a-taste-of-paradise",
+        "custom_ticket_url": "https://edfest.com/whats-on/a-taste-of-paradise",
         "code": "2026TASTEOFPG",
-        "url": "https:\/\/api.edinburghfestivalcity.com\/events\/TASTEOFPG",
+        "url": "https://edfest.com/whats-on/a-taste-of-paradise",
         "year": 2026,
         "venue": {
             "id": "db8770342fdf063d3128150901ea357f68bb9001",
@@ -112,13 +112,6 @@
                         "height": 75,
                         "mime": "image\/jpeg",
                         "url": "/static/taste-of-paradise-2026.png"
-                    },
-                    "thumb-100": {
-                        "type": "thumb-100",
-                        "width": 100,
-                        "height": 100,
-                        "mime": "image\/jpeg",
-                        "url": "https:\/\/images.api.edinburghfestivalcity.com\/F-180\/8f03061d1c699188674b989d8751c8d4-thumb-100.jpg"
                     },
                     "square-150": {
                         "type": "square-150",
