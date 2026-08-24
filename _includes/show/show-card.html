@@ -30,7 +30,7 @@
       </div>
       <div class="wrap-content">
         <div class="card-header">
-          <h2 {%- if include.upcoming -%}class="text-center"{%- endif -%}><a href="{{ show_link }}">{{ show.title }}</a></h2>
+          <h2 {% if include.upcoming %}class="text-center"{% endif %}><a href="{{ show_link }}">{{ show.title }}</a></h2>
           {%- if include.upcoming -%}
             {%- assign venue = site.data.venues | where_exp: "venue", "venue.name == show.venue.name" | first -%}
             {%- if venue and venue.logo -%}
